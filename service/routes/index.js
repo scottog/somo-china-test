@@ -8,8 +8,17 @@ router.get('/', function(req, res, next) {
 
 /* GET home page. */
 router.get('/health', function(req, res, next) {
-  res.send({ status: 200, body: 'healthy' })
+  const healthcheck = {
+		uptime: process.uptime(),
+		message: 'OK',
+		timestamp: Date.now()
+	};
+	try {
+		res.send(healthcheck);
+	} catch (e) {
+		healthcheck.message = e;
+		res.status(503).send();
+	}
 });
-
 
 module.exports = router;
