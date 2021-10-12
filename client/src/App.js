@@ -1,5 +1,7 @@
 import logo from './logo.svg';
+import { app, analytics} from './firebase'
 import './App.css';
+import { analytics } from './firebase';
 
 function App() {
   return (
