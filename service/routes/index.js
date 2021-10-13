@@ -14,6 +14,7 @@ router.get('/health', function(req, res, next) {
 		timestamp: Date.now()
 	};
 	try {
+		res.header("Access-Control-Allow-Origin", "*");
 		res.send(healthcheck);
 	} catch (e) {
 		healthcheck.message = e;
