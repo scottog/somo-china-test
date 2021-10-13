@@ -28,16 +28,18 @@ const testSuites = [
 
 const buildSuiteRunner = (suiteData, setter) => {
     return async (iterations) => {
-        console.log(`Run test.`)
+        const start = Date.now()
         const resp = await get(suiteData.endpoint)
         console.info(`GET health`, resp)
+        const latency = Date.now() - start
+        console.info(`Elapsed: `, latency)
         setter(iterations + 1)
     }
 }
 
 function Dashboard() {
 
-    const totalTestsToRun = 1
+    const totalTestsToRun = 5
     const [ vpcTestCount, setVpcTestCount ] = useState(0)
     const [ proxyTestCount, setProxyTestCount ] = useState(0)
     const [ fancyProxyTestCount, setFancyProxyTestCount ] = useState(0)
@@ -48,12 +50,12 @@ function Dashboard() {
     testSuites[2].runOnce = buildSuiteRunner( testSuites[2], setFancyProxyTestCount)
     testSuites[3].runOnce = buildSuiteRunner( testSuites[3], setFirebaseTestCount)
 
-    const runTests = () => {
+    const runTests = async () => {
         for (let i=0; i < totalTestsToRun; i++) {
             console.log(`Test iteration #${i}`)
-            testSuites.forEach(async (suite) => {
+            for (const suite of testSuites) {
                 await suite.runOnce(i)
-            })
+            }
         }
     }
 
