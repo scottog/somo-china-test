@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { get } from 'axios';
+import TestSummary from "./TestSummary";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 
@@ -7,22 +8,26 @@ const testSuites = [
     {
         // Hits an endpoint within an AliBaba-China VPC that's tunneled to a domestic cloud VPC (AWS).
         name: 'VPC-to-VPC Tunnel',
-        endpoint: 'http://112.74.189.208:9000/vpc'
+        endpoint: 'http://112.74.189.208:9000/vpc',
+        results: [],
     },
     {
         // Hits proxy outside of China forwarding to Firebase
         name: 'Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/rProxy'
+        endpoint: 'http://112.74.189.208:9000/rProxy',
+        results: [],
     },
     {
         // Hits Chinese proxy, forwards to reverse proxy
         name: 'Forward and Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/fancyProxy'
+        endpoint: 'http://112.74.189.208:9000/fancyProxy',
+        results: [],
     },
     {
         // Reaches out to Firebase via custom DNS
         name: 'Firebase DNS',
-        endpoint: 'http://112.74.189.208:9000/firebase'
+        endpoint: 'http://112.74.189.208:9000/firebase',
+        results: [],
     },
 ]
 
@@ -32,7 +37,7 @@ const buildSuiteRunner = (suiteData, setter) => {
         const resp = await get(suiteData.endpoint)
         console.info(`GET health`, resp)
         const latency = Date.now() - start
-        console.info(`Elapsed: `, latency)
+        suiteData.results.push(latency)
         setter(iterations + 1)
     }
 }
@@ -69,10 +74,10 @@ function Dashboard() {
             >Start tests</button>
 
         <ul>
-            <li> {testSuites[0].name} : { vpcTestCount } / { totalTestsToRun } </li>
-            <li> {testSuites[1].name} : { proxyTestCount } / { totalTestsToRun } </li>
-            <li> {testSuites[2].name} : { fancyProxyTestCount } / { totalTestsToRun } </li>
-            <li> {testSuites[3].name} : { firebaseTestCount } / { totalTestsToRun } </li>
+            <TestSummary suite={testSuites[0]} testCount={vpcTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
+            <TestSummary suite={testSuites[1]} testCount={proxyTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
+            <TestSummary suite={testSuites[2]} testCount={fancyProxyTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
+            <TestSummary suite={testSuites[3]} testCount={firebaseTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
         </ul>
         </div>
     </div>
