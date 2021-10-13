@@ -31,19 +31,17 @@ router.get('/', function(req, res, next) {
 router.get('/health', returnTimestamp);
 
 router.get('/firebase', async (req, res, next) => {
-	await sleep(50)
 	return returnTimestamp(req,res, next)
 });
 router.get('/rProxy', async (req, res, next) => {
-	await sleep(100)
 	return returnTimestamp(req,res, next)
 });
 router.get('/fancyProxy', async (req, res, next) => {
-	await sleep(300)
+	await sleep(100)
 	return returnTimestamp(req,res, next)
 });
 router.get('/vpc', async (req, res, next) => {
-	await sleep(500)
+	await sleep(100)
 	return returnTimestamp(req,res, next)
 });
 module.exports = router;
