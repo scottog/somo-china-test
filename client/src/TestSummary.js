@@ -3,7 +3,7 @@ import React from "react";
 const averageMs = (results) => {
     if (!results || results.length === 0) return null
     const sum = results.reduce((prev, curr) => prev+curr)
-    return `average ${sum/results.length}ms`
+    return `avg lat ${Math.floor(sum/results.length)}ms`
 }
 
 const TestSummary = ({suite, testCount, totalTestsToRun}) => {

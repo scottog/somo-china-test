@@ -27,6 +27,11 @@
     color: white;
     background-color: black;
   }
+  button:disabled {
+    background-color: lightgrey;
+    color: darkgrey;
+    border-color: grey;
+  }
   .login__google {
     background-color: #4285f4;
   }

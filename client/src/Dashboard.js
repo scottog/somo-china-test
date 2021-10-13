@@ -43,25 +43,28 @@ const buildSuiteRunner = (suiteData, setter) => {
 }
 
 function Dashboard() {
-
-    const totalTestsToRun = 5
     const [ vpcTestCount, setVpcTestCount ] = useState(0)
     const [ proxyTestCount, setProxyTestCount ] = useState(0)
     const [ fancyProxyTestCount, setFancyProxyTestCount ] = useState(0)
     const [ firebaseTestCount, setFirebaseTestCount ] = useState(0)    
+    const [ totalTestsToRun, setTotalTests ] = useState(0)
+    const [ runningTests, setRunningTests ] = useState(false)
 
     testSuites[0].runOnce = buildSuiteRunner( testSuites[0], setVpcTestCount)
     testSuites[1].runOnce = buildSuiteRunner( testSuites[1], setProxyTestCount)
     testSuites[2].runOnce = buildSuiteRunner( testSuites[2], setFancyProxyTestCount)
     testSuites[3].runOnce = buildSuiteRunner( testSuites[3], setFirebaseTestCount)
 
-    const runTests = async () => {
-        for (let i=0; i < totalTestsToRun; i++) {
+    const runTests = async (totalTests) => {
+        setRunningTests(true)
+        setTotalTests(totalTests)
+        for (let i=0; i < totalTests; i++) {
             console.log(`Test iteration #${i}`)
             for (const suite of testSuites) {
                 await suite.runOnce(i)
             }
         }
+        setRunningTests(false)
     }
 
     return (
@@ -70,8 +73,14 @@ function Dashboard() {
             <h2>Test Harness</h2>
             <button
                 className="login__btn"
-                onClick={() => runTests()}
-            >Start tests</button>
+                disabled={runningTests}
+                onClick={() => runTests(5)}
+            >Run 5 tests</button>
+                        <button
+                className="login__btn"
+                disabled={runningTests}
+                onClick={() => runTests(100)}
+            >Run 100 tests</button>
 
         <ul>
             <TestSummary suite={testSuites[0]} testCount={vpcTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
