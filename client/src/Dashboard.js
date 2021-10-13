@@ -7,22 +7,22 @@ const testSuites = [
     {
         // Hits an endpoint within an AliBaba-China VPC that's tunneled to a domestic cloud VPC (AWS).
         name: 'VPC-to-VPC Tunnel',
-        endpoint: 'http://112.74.189.208:9000/health'
+        endpoint: 'http://112.74.189.208:9000/vpc'
     },
     {
         // Hits proxy outside of China forwarding to Firebase
         name: 'Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/health'
+        endpoint: 'http://112.74.189.208:9000/rProxy'
     },
     {
         // Hits Chinese proxy, forwards to reverse proxy
         name: 'Forward and Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/health'
+        endpoint: 'http://112.74.189.208:9000/fancyProxy'
     },
     {
         // Reaches out to Firebase via custom DNS
         name: 'Firebase DNS',
-        endpoint: 'http://112.74.189.208:9000/health'
+        endpoint: 'http://112.74.189.208:9000/firebase'
     },
 ]
 
@@ -62,11 +62,11 @@ function Dashboard() {
     return (
     <div className="login">
         <div className="login__container">
-            Dashboard!
+            <h2>Test Harness</h2>
             <button
                 className="login__btn"
                 onClick={() => runTests()}
-            >Start test</button>
+            >Start tests</button>
 
         <ul>
             <li> {testSuites[0].name} : { vpcTestCount } / { totalTestsToRun } </li>
