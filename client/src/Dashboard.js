@@ -34,8 +34,13 @@ const testSuites = [
 const buildSuiteRunner = (suiteData, setter) => {
     return async (iterations) => {
         const start = Date.now()
-        const resp = await get(suiteData.endpoint)
-        console.info(`GET health`, resp)
+        try {
+            const resp = await get(suiteData.endpoint)
+            console.info(`GET health`, resp)
+        } catch (err) {
+            console.error(`Failed to good response`, err)
+        }
+        
         const latency = Date.now() - start
         suiteData.results.push(latency)
         setter(iterations + 1)
