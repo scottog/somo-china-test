@@ -1,28 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { get } from 'axios';
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 
 const testSuites = [
     {
+        // Hits an endpoint within an AliBaba-China VPC that's tunneled to a domestic cloud VPC (AWS).
         name: 'VPC-to-VPC Tunnel',
-        runOnce: null
+        endpoint: 'http://112.74.189.208:9000/health'
     },
     {
-        name: 'Reverse Proxy'
+        // Hits proxy outside of China forwarding to Firebase
+        name: 'Reverse Proxy',
+        endpoint: 'http://112.74.189.208:9000/health'
     },
     {
-        name: 'Forward and Reverse Proxy'
+        // Hits Chinese proxy, forwards to reverse proxy
+        name: 'Forward and Reverse Proxy',
+        endpoint: 'http://112.74.189.208:9000/health'
     },
     {
-        name: 'Firebase DNS'
+        // Reaches out to Firebase via custom DNS
+        name: 'Firebase DNS',
+        endpoint: 'http://112.74.189.208:9000/health'
     },
 ]
 
 const buildSuiteRunner = (suiteData, setter) => {
     return async (iterations) => {
         console.log(`Run test.`)
-        const resp = await get('http://112.74.189.208:9000/health')
+        const resp = await get(suiteData.endpoint)
         console.info(`GET health`, resp)
         setter(iterations + 1)
     }
@@ -30,7 +37,7 @@ const buildSuiteRunner = (suiteData, setter) => {
 
 function Dashboard() {
 
-    const totalTestsToRun = 100
+    const totalTestsToRun = 1
     const [ vpcTestCount, setVpcTestCount ] = useState(0)
     const [ proxyTestCount, setProxyTestCount ] = useState(0)
     const [ fancyProxyTestCount, setFancyProxyTestCount ] = useState(0)
