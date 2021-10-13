@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Login from './Login' 
-import { firebaseApp, db, signInWithEmailAndPassword, logout } from './firebase'
+import Dashboard from './Dashboard'
 import './App.css';
 
 
@@ -11,6 +11,7 @@ function App() {
   <Router>
     <Switch>
       <Route exact path="/" component={Login} />
+      <Route path="/dashboard" component={Dashboard} />
     </Switch>
   </Router>
 </div>
