@@ -40,10 +40,9 @@ const buildSuiteRunner = (suiteData, setter) => {
         } catch (err) {
             console.error(`Failed to good response`, err)
         }
-        
         const latency = Date.now() - start
-        suiteData.results.push(latency)
         setter(iterations + 1)
+        return [suiteData, latency]
     }
 }
 
@@ -66,7 +65,8 @@ function Dashboard() {
         for (let i=0; i < totalTests; i++) {
             console.log(`Test iteration #${i}`)
             for (const suite of testSuites) {
-                await suite.runOnce(i)
+                const [suiteData, testResult] = await suite.runOnce(i)
+                suiteData.results.push(testResult)
             }
         }
         setRunningTests(false)
