@@ -4,29 +4,32 @@ import TestSummary from "./TestSummary";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 
+// const urlBase = `http://112.74.189.208:9000`
+const urlBase = `http://localhost:9000`
+
 const testSuites = [
     {
         // Hits an endpoint within an AliBaba-China VPC that's tunneled to a domestic cloud VPC (AWS).
         name: 'VPC-to-VPC Tunnel',
-        endpoint: 'http://112.74.189.208:9000/vpc',
+        endpoint: `${urlBase}/vpc`,
         results: [],
     },
     {
         // Hits proxy outside of China forwarding to Firebase
         name: 'Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/rProxy',
+        endpoint: `${urlBase}/rProxy`,
         results: [],
     },
     {
         // Hits Chinese proxy, forwards to reverse proxy
         name: 'Forward and Reverse Proxy',
-        endpoint: 'http://112.74.189.208:9000/fancyProxy',
+        endpoint: `${urlBase}/fancyProxy`,
         results: [],
     },
     {
         // Reaches out to Firebase via custom DNS
         name: 'Firebase DNS',
-        endpoint: 'http://112.74.189.208:9000/firebase',
+        endpoint: `${urlBase}/firebase`,
         results: [],
     },
 ]
@@ -36,7 +39,7 @@ const buildSuiteRunner = (suiteData, setter) => {
         const start = Date.now()
         try {
             const resp = await get(suiteData.endpoint)
-            console.info(`GET health`, resp)
+            console.info(`GET test-stub`, resp)
         } catch (err) {
             console.error(`Failed to good response`, err)
         }

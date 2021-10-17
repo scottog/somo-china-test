@@ -5,7 +5,12 @@ const returnTimestamp = function(req, res, next) {
 	const healthcheck = {
 		  uptime: process.uptime(),
 		  message: 'OK',
-		  timestamp: Date.now()
+		  timestamp: Date.now(),
+		  req: {
+			  headers: req.headers,
+			  _startTime: req._startTime,
+			  _remoteAddress: req._remoteAddress,
+		  },
 	  };
 	  try {
 		  res.header("Access-Control-Allow-Origin", "*");
@@ -34,8 +39,7 @@ router.get('/firebase', async (req, res, next) => {
 	return returnTimestamp(req,res, next)
 });
 router.get('/rProxy', async (req, res, next) => {
-	// console.log(`Request`, req)
-	console.log(`Request remote address`, req._remoteAddress)
+	console.log(`Request`, req)
 	return returnTimestamp(req,res, next)
 });
 router.get('/fancyProxy', async (req, res, next) => {
