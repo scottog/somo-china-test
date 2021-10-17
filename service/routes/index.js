@@ -34,7 +34,8 @@ router.get('/firebase', async (req, res, next) => {
 	return returnTimestamp(req,res, next)
 });
 router.get('/rProxy', async (req, res, next) => {
-	console.log(`Request`, req)
+	// console.log(`Request`, req)
+	console.log(`Request remote address`, req._remoteAddress)
 	return returnTimestamp(req,res, next)
 });
 router.get('/fancyProxy', async (req, res, next) => {
