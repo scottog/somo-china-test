@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
+const cors = require('cors')
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -13,6 +14,21 @@ const port = 9000
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+const allowList = [/\.somo-just-testing\.com$/, /\.localhost$/]
+const corsOptionsDelegate = function (req, callback) {
+  var corsOptions
+  if (allowList.indexOf(req.header('Origin')) !== -1) {
+    // reflect (enable) the requested origin in the CORS response
+    corsOptions = { origin: true }
+  } else {
+     // disable CORS for this request
+    corsOptions = { origin: false }
+  }
+  callback(null, corsOptions)
+}
+
+app.use(cors(corsOptionsDelegate))
 
 app.use(logger('dev'));
 app.use(express.json());
