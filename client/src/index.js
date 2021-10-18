@@ -5,12 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <>
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
