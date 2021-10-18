@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { get } from 'axios';
 import TestSummary from "./TestSummary";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { Link, useHistory } from "react-router-dom";
 import "./Login.css";
 
-// const urlBase = `http://112.74.189.208:9000`
-const urlBase = `http://localhost:9000`
+const urlBase = `http://112.74.189.208:9000`
+// const urlBase = `http://localhost:9000`
 
 const testSuites = [
     {
@@ -42,6 +43,7 @@ const buildSuiteRunner = (suiteData, setter) => {
             console.info(`GET test-stub`, resp)
         } catch (err) {
             console.error(`Failed to good response`, err)
+            // Get failure data, append
         }
         const latency = Date.now() - start
         setter(iterations + 1)
