@@ -6,8 +6,8 @@ import { ref, set } from "firebase/database";
 import { Link, useHistory } from "react-router-dom"
 import "./Login.css"
 
-// const urlBase = `http://112.74.189.208:9000`
-const urlBase = `http://localhost:9000`
+const urlBase = `//112.74.189.208:9000`
+// const urlBase = `//localhost:9000`
 
 const testSuites = [
     {
