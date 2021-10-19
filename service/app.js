@@ -1,6 +1,8 @@
+const https = require('https')
 const createError = require('http-errors');
 const express = require('express');
 const cors = require('cors')
+const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -58,5 +60,12 @@ app.use(function(err, req, res, next) {
 app.listen(port, () => {
   console.log(`Test service running on ${port}`)
 })
+
+// https.createServer({
+//   key: fs.readFileSync('./cert/domain.key'),
+//   cert: fs.readFileSync('./cert/domain.crt')
+// }, app).listen(port, () => {
+//   console.log(`Test service running on ${port}`)
+// })
 
 module.exports = app;
