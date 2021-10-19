@@ -78,14 +78,16 @@ function Dashboard() {
         }
          
         const user = auth.currentUser
-        console.log(`Writing results`)
-        for (const suite of testSuites) {
-            const epochMillis = new Date().getTime()
-            const id = `test-${user.uid}-${epochMillis}`
-            const testData = Object.assign({}, suite)
-            delete testData.runOnce
-            await set(ref(database, `${id}`), testData)
-            suite.results = []
+        if (user) {
+            console.log(`Writing results`)
+            for (const suite of testSuites) {
+                const epochMillis = new Date().getTime()
+                const id = `test-${user.uid}-${epochMillis}`
+                const testData = Object.assign({}, suite)
+                delete testData.runOnce
+                await set(ref(database, `${id}`), testData)
+                suite.results = []
+            }
         }
         setRunningTests(false)
     }
