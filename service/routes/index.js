@@ -36,18 +36,24 @@ router.get('/', function(req, res, next) {
 router.get('/health', returnTimestamp);
 
 router.get('/firebase', async (req, res, next) => {
+	const delay = (Math.random() * 123) + 59
+	await sleep(delay)
 	return returnTimestamp(req,res, next)
 });
 router.get('/rProxy', async (req, res, next) => {
 	console.log(`Request`, req)
+	const delay = (Math.random() * 174) + 100
+	await sleep(delay)
 	return returnTimestamp(req,res, next)
 });
 router.get('/fancyProxy', async (req, res, next) => {
-	await sleep(100)
+	const delay = (Math.random() * 323) + 200
+	await sleep(delay)
 	return returnTimestamp(req,res, next)
 });
 router.get('/vpc', async (req, res, next) => {
-	await sleep(100)
+	const delay = (Math.random() * 172) + 55
+	await sleep(delay)
 	return returnTimestamp(req,res, next)
 });
 module.exports = router;
