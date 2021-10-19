@@ -60,6 +60,7 @@ function Dashboard() {
     const [ firebaseTestCount, setFirebaseTestCount ] = useState(0)    
     const [ totalTestsToRun, setTotalTests ] = useState(0)
     const [ runningTests, setRunningTests ] = useState(false)
+    const [ finishedTests, setFinishedTests ] = useState(false)
 
     testSuites[0].runOnce = buildSuiteRunner( testSuites[0], setVpcTestCount)
     testSuites[1].runOnce = buildSuiteRunner( testSuites[1], setProxyTestCount)
@@ -90,6 +91,7 @@ function Dashboard() {
             }
         }
         setRunningTests(false)
+        setFinishedTests(true)
     }
 
     return (
@@ -113,6 +115,7 @@ function Dashboard() {
             <TestSummary suite={testSuites[2]} testCount={fancyProxyTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
             <TestSummary suite={testSuites[3]} testCount={firebaseTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
         </ul>
+        { finishedTests ? <h2 style={{color: 'green'}}>Testing complete! Thank you.</h2> : null }
         </div>
     </div>
     );
