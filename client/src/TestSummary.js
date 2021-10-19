@@ -2,7 +2,10 @@ import React from "react";
 
 const averageMs = (results) => {
     if (!results || results.length === 0) return null
-    const sum = results.reduce((prev, curr) => prev+curr)
+    let sum = 0
+    for (const result of results) {
+        sum += result.latency
+    }
     return `avg lat ${Math.floor(sum/results.length)}ms`
 }
 
