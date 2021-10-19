@@ -98,16 +98,16 @@ function Dashboard() {
     <div className="login">
         <div className="login__container">
             <h2>Test Harness</h2>
-            <button
+            {/* <button
                 className="login__btn"
                 disabled={runningTests}
                 onClick={() => runTests(5)}
-            >Run 5 tests</button>
+            >Run 5 tests</button> */}
                         <button
                 className="login__btn"
                 disabled={runningTests}
                 onClick={() => runTests(100)}
-            >Run 100 tests</button>
+            >Run Tests</button>
 
         <ul>
             <TestSummary suite={testSuites[0]} testCount={vpcTestCount} totalTestsToRun={totalTestsToRun} ></TestSummary>
