@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { get } from 'axios';
-import TestSummary from "./TestSummary";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { Link, useHistory } from "react-router-dom";
-import "./Login.css";
+import React, { useState } from "react"
+import { get } from 'axios'
+import TestSummary from "./TestSummary"
+import { database, auth } from './firebase'
+import { ref, set } from "firebase/database";
+import { Link, useHistory } from "react-router-dom"
+import "./Login.css"
 
-const urlBase = `http://112.74.189.208:9000`
-// const urlBase = `http://localhost:9000`
+// const urlBase = `http://112.74.189.208:9000`
+const urlBase = `http://localhost:9000`
 
 const testSuites = [
     {
@@ -38,16 +39,17 @@ const testSuites = [
 const buildSuiteRunner = (suiteData, setter) => {
     return async (iterations) => {
         const start = Date.now()
+        let success = false
         try {
             const resp = await get(suiteData.endpoint)
+            success = true
             console.info(`GET test-stub`, resp)
         } catch (err) {
             console.error(`Failed to good response`, err)
-            // Get failure data, append
         }
         const latency = Date.now() - start
         setter(iterations + 1)
-        return [suiteData, latency]
+        return [latency, success]
     }
 }
 
@@ -70,9 +72,20 @@ function Dashboard() {
         for (let i=0; i < totalTests; i++) {
             console.log(`Test iteration #${i}`)
             for (const suite of testSuites) {
-                const [suiteData, testResult] = await suite.runOnce(i)
-                suiteData.results.push(testResult)
+                const [latency, pass] = await suite.runOnce(i)
+                suite.results.push({ latency, pass })
             }
+        }
+         
+        const user = auth.currentUser
+        console.log(`Writing results`)
+        for (const suite of testSuites) {
+            const epochMillis = new Date().getTime()
+            const id = `test-${user.uid}-${epochMillis}`
+            const testData = Object.assign({}, suite)
+            delete testData.runOnce
+            await set(ref(database, `${id}`), testData)
+            suite.results = []
         }
         setRunningTests(false)
     }
